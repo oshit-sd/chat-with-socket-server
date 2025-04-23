@@ -80,6 +80,7 @@ export default {
   data() {
     return {
       socket: null,
+      apiKey: "riseuplabs123",
       user: {
         id: "",
         name: "",
@@ -136,12 +137,9 @@ export default {
     },
 
     connectSocket() {
-      // const apiKey = "";
-      const apiKey = "1a9a886cd0ec7bb45eedb0f1a2c3d4e";
-
-      const socket = io("ws://192.168.10.157:3001/oshit-sd", {
+      const socket = io("ws://192.168.10.157:3001", {
         auth: {
-          apiKey: apiKey,
+          apiKey: this.apiKey,
         },
         query: {
           clientId: this.user.id,
@@ -187,6 +185,11 @@ export default {
   },
 
   mounted() {
+    // const apiKey = prompt("Enter your display name:", this.apiKey);
+    // if (apiKey?.trim()) {
+    //   this.apiKey = apiKey.trim();
+    // }
+
     this.initializeUser();
     this.connectSocket();
 
