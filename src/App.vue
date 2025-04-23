@@ -136,14 +136,27 @@ export default {
     },
 
     connectSocket() {
-      this.socket = io("ws://192.168.10.157:3001", {
-        query: { clientId: this.user.id },
+      // const apiKey = "";
+      const apiKey = "1a9a886cd0ec7bb45eedb0f1a2c3d4e";
+
+      const socket = io("ws://192.168.10.157:3001/oshit-sd", {
+        auth: {
+          apiKey: apiKey,
+        },
+        query: {
+          clientId: this.user.id,
+        },
       });
 
-      this.socket.on("VUE_MESSAGE", ({ message }) => {
-        this.messages.push(message);
-        this.scrollToBottom();
+      socket.on("connect_error", (err) => {
+        console.error("❌ Socket connection error:", err.message);
       });
+
+      socket.on("connect", () => {
+        console.log("✅ Connected to socket server");
+      });
+
+      this.socket = socket;
     },
 
     generateId() {
@@ -176,6 +189,11 @@ export default {
   mounted() {
     this.initializeUser();
     this.connectSocket();
+
+    this.socket.on("VUE_MESSAGE", (data) => {
+      this.messages.push(data.message);
+      this.scrollToBottom();
+    });
   },
 };
 </script>
