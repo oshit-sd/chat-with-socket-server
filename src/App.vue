@@ -23,6 +23,17 @@
         </div>
       </div>
 
+      <!-- 🟢 Online Users List -->
+      <div
+        class="px-4 py-2 text-xs text-slate-400 border-b border-slate-600 bg-[#0f172a]"
+      >
+        <span class="font-semibold text-slate-300">Online: </span>
+        <span v-for="(u, idx) in onlineUsers" :key="idx" class="mr-2">
+          <span class="text-green-500">🟢</span> {{ u.userName }} &nbsp;
+          <span v-if="idx !== onlineUsers.length - 1">|</span>
+        </span>
+      </div>
+
       <!-- Chat Messages -->
       <div
         ref="chatBox"
@@ -51,12 +62,27 @@
         </div>
       </div>
 
+      <!-- Typing Indicator (Below Chat Messages) -->
+      <div
+        v-if="Object.keys(typingUsers).length"
+        class="text-xs text-slate-400 px-4 pb-2"
+      >
+        <span
+          v-for="([userId, userName], idx) in Object.entries(typingUsers)"
+          :key="userId"
+        >
+          {{ userName }} is typing...
+          <span v-if="idx !== Object.entries(typingUsers).length - 1">, </span>
+        </span>
+      </div>
+
       <!-- Input Area -->
       <div
         class="p-4 bg-[#0f172a] border-t border-slate-600 flex items-center gap-2"
       >
         <input
           v-model="message"
+          @input="onTyping"
           @keyup.enter="sendMessage"
           type="text"
           placeholder="Type your message..."
@@ -87,6 +113,9 @@ export default {
       },
       message: "",
       messages: [],
+      onlineUsers: [],
+      typingTimeout: null,
+      typingUsers: {},
     };
   },
 
@@ -101,13 +130,18 @@ export default {
         user: this.user,
       };
 
+      const message_to = localStorage.getItem("message_to");
+
       this.socket.emit("message", {
-        to: "all",
+        // to: "all",
+        to: message_to || "all",
         event: "VUE_MESSAGE",
         message: msg,
       });
 
       this.message = "";
+      this.socket.emit("stop_typing");
+      this.messages.push(msg);
       this.scrollToBottom();
     },
 
@@ -116,6 +150,7 @@ export default {
       if (newName?.trim()) {
         this.user.name = newName.trim();
         this.saveUser();
+        this.reconnectSocket();
       }
     },
 
@@ -137,13 +172,16 @@ export default {
     },
 
     connectSocket() {
-      const socket = io("ws://192.168.10.157:3001", {
+      const socket = io("ws://172.16.1.123:82/", {
         auth: {
           apiKey: this.apiKey,
+          userId: this.user.id,
+          userName: this.user.name,
         },
         query: {
           clientId: this.user.id,
         },
+        autoConnect: false,
       });
 
       socket.on("connect_error", (err) => {
@@ -154,7 +192,63 @@ export default {
         console.log("✅ Connected to socket server");
       });
 
+      socket.on("VUE_MESSAGE", (data) => {
+        if (data?.message?.user?.id === this.user.id) {
+          return;
+        }
+        this.messages.push(data.message);
+        this.scrollToBottom();
+      });
+
+      socket.on("online_users", (users) => {
+        this.onlineUsers = users.filter((u) => u.userId !== this.user.id);
+      });
+
+      socket.on("user_offline", (userId) => {
+        this.onlineUsers = this.onlineUsers.filter((u) => u.userId !== userId);
+      });
+
+      socket.on("user_typing", (data) => {
+        if (!this.typingUsers[data.userId]) {
+          this.typingUsers[data.userId] = data.userName;
+        }
+      });
+
+      socket.on("user_stop_typing", (data) => {
+        delete this.typingUsers[data.userId];
+      });
+
       this.socket = socket;
+      this.socket.connect();
+    },
+
+    onTyping() {
+      if (!this.socket) return;
+
+      this.socket.emit("typing", {
+        userId: this.user.id,
+        userName: this.user.name,
+      });
+
+      if (this.typingTimeout) {
+        clearTimeout(this.typingTimeout);
+      }
+
+      this.typingTimeout = setTimeout(() => {
+        this.socket.emit("stop_typing", { userId: this.user.id });
+      }, 500);
+    },
+
+    reconnectSocket() {
+      if (this.socket) {
+        this.socket.disconnect();
+      }
+      this.connectSocket();
+    },
+
+    getUserNameById(userId) {
+      const user = this.onlineUsers.find((u) => u.userId === userId);
+      return user ? user.userName : null;
     },
 
     generateId() {
@@ -185,18 +279,8 @@ export default {
   },
 
   mounted() {
-    // const apiKey = prompt("Enter your display name:", this.apiKey);
-    // if (apiKey?.trim()) {
-    //   this.apiKey = apiKey.trim();
-    // }
-
     this.initializeUser();
     this.connectSocket();
-
-    this.socket.on("VUE_MESSAGE", (data) => {
-      this.messages.push(data.message);
-      this.scrollToBottom();
-    });
   },
 };
 </script>
