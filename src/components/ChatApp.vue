@@ -113,6 +113,10 @@ export default {
         if (data?.message?.user?.id !== this.user.id) {
           this.messages.push(data.message);
           this.scrollToBottom();
+
+          if (document.hidden) {
+            this.showBrowserNotification(data.message);
+          }
         }
       });
 
@@ -156,6 +160,15 @@ export default {
       }, 500);
     },
 
+    showBrowserNotification(message) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("💬 New Message", {
+          body: `${message.user.name}: ${message.text}`,
+          icon: "/chat.png",
+        });
+      }
+    },
+
     scrollToBottom() {
       this.$nextTick(() => {
         this.$refs.chatBox?.$el?.scrollTo({
@@ -182,6 +195,10 @@ export default {
   mounted() {
     this.initializeUser();
     this.connectSocket();
+
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
   },
 };
 </script>

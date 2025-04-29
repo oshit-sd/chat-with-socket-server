@@ -19,8 +19,8 @@
       >
         <p>{{ msg.text }}</p>
         <span class="block text-xs mt-1 text-right text-slate-300">
-          {{ msg.user.id === currentUser.id ? "You •" : msg.user.name }}
-          {{ formatTime(msg.time) }}
+          {{ msg.user.id === currentUser.id ? "You" : msg.user.name }}
+          • {{ formatTime(msg.time) }}
         </span>
       </div>
     </div>
