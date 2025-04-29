@@ -104,7 +104,6 @@ export default {
 
     connectSocket() {
       this.socket = createSocket({
-        apiKey: this.apiKey,
         userId: this.user.id,
         userName: this.user.name,
       });
@@ -122,10 +121,6 @@ export default {
 
       this.socket.on("online_users", (users) => {
         this.onlineUsers = users.filter((u) => u.userId !== this.user.id);
-      });
-
-      this.socket.on("user_offline", (userId) => {
-        this.onlineUsers = this.onlineUsers.filter((u) => u.userId !== userId);
       });
 
       this.socket.on("user_typing", (data) => {
