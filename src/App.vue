@@ -172,7 +172,7 @@ export default {
     },
 
     connectSocket() {
-      const socket = io("ws://socket.brighthomeltd.com", {
+      const socket = io("wss://socket.brighthomeltd.com", {
         auth: {
           apiKey: this.apiKey,
           userId: this.user.id,
