@@ -104,7 +104,6 @@ export default {
 
     connectSocket() {
       this.socket = createSocket({
-        apiKey: this.apiKey,
         userId: this.user.id,
         userName: this.user.name,
       });
