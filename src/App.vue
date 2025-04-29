@@ -6,6 +6,7 @@
 import ChatApp from "@/components/ChatApp.vue";
 
 export default {
+  name: "App",
   components: {
     ChatApp,
   },
