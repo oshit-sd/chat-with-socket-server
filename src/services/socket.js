@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 let socket = null;
 
-export function createSocket({ userId = '', userName = '' } = {}) {
+export function createSocket({ userId = '', userName = '', role = 'user' } = {}) {
     const socketUrl = import.meta.env.VITE_SOCKET_URL;
     const apiKey = import.meta.env.VITE_SOCKET_API_KEY;
 
@@ -11,7 +11,7 @@ export function createSocket({ userId = '', userName = '' } = {}) {
     }
 
     socket = io(socketUrl, {
-        auth: { apiKey, userId, userName },
+        auth: { apiKey, userId, userName, role },
         autoConnect: false,
     });
 

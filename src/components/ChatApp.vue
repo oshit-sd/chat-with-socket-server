@@ -39,7 +39,9 @@ export default {
     return {
       apiKey: import.meta.env.VITE_SOCKET_API_KEY,
       socket: null,
+      role: localStorage.getItem("role") || "user",
       messageTo: localStorage.getItem("message_to") || "all",
+      // messageTo: "all",
       user: { id: "", name: "" },
       message: "",
       messages: [],
@@ -104,6 +106,7 @@ export default {
 
     connectSocket() {
       this.socket = createSocket({
+        role: this.role,
         userId: this.user.id,
         userName: this.user.name,
       });
