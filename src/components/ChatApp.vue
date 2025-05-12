@@ -1,5 +1,15 @@
 <template>
-  <div class="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+  <div
+    class="min-h-screen bg-[#0f172a] flex items-center justify-center p-4 relative"
+  >
+    <button
+      @click="sendNotification"
+      title="Send a notification to all users"
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-indigo-600 text-white px-4 py-2 rounded-full shadow hover:bg-indigo-500 transition flex items-center gap-2"
+    >
+      📣 Notify All Users
+    </button>
+
     <div
       class="w-full max-w-md bg-[#1e293b] text-white rounded-2xl shadow-xl flex flex-col h-[90vh] border border-slate-700"
     >
@@ -16,6 +26,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import ChatHeader from "@/components/elements/ChatHeader.vue";
@@ -188,6 +199,14 @@ export default {
         Math.floor(Math.random() * 1000)
       );
     },
+
+    sendNotification() {
+      this.socket.emit("message", {
+        to: "all",
+        event: "VUE_NOTIFY",
+        message: `${this.user.name} says: "Hey everyone! Just sending out a quick heads-up 🚀"`,
+      });
+    },
   },
 
   mounted() {
@@ -197,6 +216,12 @@ export default {
     if ("Notification" in window && Notification.permission !== "granted") {
       Notification.requestPermission();
     }
+
+    this.socket.on("VUE_NOTIFY", (data) => {
+      if (data.message) {
+        alert(data.message);
+      }
+    });
   },
 };
 </script>
