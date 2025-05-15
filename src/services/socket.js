@@ -15,6 +15,10 @@ export function createSocket({ userId = '', userName = '', role = 'user' } = {})
         autoConnect: false,
     });
 
+    socket.on("errors", (err) => {
+        console.error("❌ Socket error:", err.message);
+    });
+
     socket.on("connect_error", (err) => {
         console.error("❌ Socket connection error:", err.message);
     });
