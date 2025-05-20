@@ -50,6 +50,7 @@ export default {
     return {
       apiKey: import.meta.env.VITE_SOCKET_API_KEY,
       socket: null,
+      // role: "agent",
       role: localStorage.getItem("role") || "user",
       messageTo: localStorage.getItem("message_to") || "all",
       // messageTo: "all",
