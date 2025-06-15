@@ -121,6 +121,7 @@ export default {
         role: this.role,
         userId: this.user.id,
         userName: this.user.name,
+        room: "vue-chat",
       });
 
       this.socket.on("VUE_MESSAGE", (data) => {
