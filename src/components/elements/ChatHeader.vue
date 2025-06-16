@@ -1,10 +1,10 @@
 <template>
   <div
-    class="bg-gradient-to-b from-[#1e293b] to-[#0f172a] p-6 text-center border-b border-slate-700 shadow-md relative"
+    class="bg-gradient-to-b from-[#1e293b] to-[#0f172a] p-3 text-center border-b border-slate-700 shadow-md relative"
   >
     <!-- App Name -->
     <h2
-      class="text-2xl font-extrabold tracking-wide text-indigo-400 drop-shadow-lg mb-2"
+      class="text-2xl font-extrabold tracking-wide text-indigo-400 drop-shadow-lg mb-1"
     >
       💬 {{ appName }}
     </h2>
@@ -24,10 +24,10 @@
     </div>
 
     <!-- Divider -->
-    <div class="my-4 h-px bg-slate-600 w-full"></div>
+    <div class="mt-2 mb-4 h-px bg-slate-600 w-full"></div>
 
     <!-- Select Message Receiver -->
-    <div class="flex flex-col items-center gap-2">
+    <div class="flex flex-col items-center gap-1">
       <label
         class="text-slate-400 text-xs uppercase tracking-wide font-semibold"
       >
