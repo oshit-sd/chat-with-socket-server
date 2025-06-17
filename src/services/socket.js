@@ -10,10 +10,6 @@ export function createSocket({ userId = '', userName = '', room = '', role = 'us
         throw new Error("VITE_SOCKET_URL or VITE_SOCKET_API_KEY not defined in .env");
     }
 
-    if (!room || /\s/.test(room)) {
-        throw new Error("Invalid room name. The 'room' field is required and cannot contain spaces.");
-    }
-
     if (socket) {
         socket.disconnect();
         console.warn("⚙️ Previous socket disconnected.");
