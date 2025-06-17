@@ -48,7 +48,6 @@ export default {
 
   data() {
     return {
-      apiKey: import.meta.env.VITE_SOCKET_API_KEY,
       socket: null,
       // role: "agent",
       role: "user",
@@ -68,7 +67,7 @@ export default {
       const trimmed = content.trim();
       if (!trimmed) return;
 
-      const msg = {
+      const newMessage = {
         time: new Date(),
         text: trimmed,
         user: this.user,
@@ -77,11 +76,11 @@ export default {
       this.socket.emit("message", {
         to: this.messageTo,
         event: "VUE_MESSAGE",
-        message: msg,
+        message: newMessage,
       });
 
       this.message = "";
-      this.messages.push(msg);
+      this.messages.push(newMessage);
       this.socket.emit("stop_typing");
       this.scrollToBottom();
     },
