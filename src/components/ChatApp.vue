@@ -5,7 +5,7 @@
     <button
       @click="sendNotification"
       title="Send a notification to all users"
-      class="absolute left-4 top-1/2 -translate-y-1/2 bg-indigo-600 text-white cursor-pointer px-4 py-2 rounded-full shadow hover:bg-indigo-500 transition flex items-center gap-2"
+      class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-indigo-600 text-white cursor-pointer px-4 py-2 rounded-full shadow hover:bg-indigo-500 transition items-center gap-2"
     >
       📣 Notify All Users
     </button>

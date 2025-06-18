@@ -44,6 +44,9 @@ The socket is initialized using the `createSocket()` function, which authenticat
 * **`userName`**:
   The display name shown in the chat interface.
 
+* **`room`**:
+  A unique room name where users can join and exchange messages. Users in the same room can communicate in real time.
+
 * **`role`**:
   Defines the behavior and access level of the connected client. Supported roles:
 
@@ -64,10 +67,47 @@ The socket is initialized using the `createSocket()` function, which authenticat
 #### Example:
 
 ```js
+import { io } from "socket.io-client";
+
+let socket = null;
+
+export function createSocket({ userId = '', userName = '', room = '', role = 'user' } = {}) {
+    const socketUrl = import.meta.env.VITE_SOCKET_URL;
+    const apiKey = import.meta.env.VITE_SOCKET_API_KEY;
+
+    if (!socketUrl || !apiKey) {
+        throw new Error("VITE_SOCKET_URL or VITE_SOCKET_API_KEY not defined in .env");
+    }
+
+    if (socket) {
+        socket.disconnect();
+        console.warn("⚙️ Previous socket disconnected.");
+    }
+
+    socket = io(socketUrl, {
+        auth: { apiKey, userId, userName, room, role }
+    });
+
+    socket.on("errors", (err) => {
+        console.error("❌ Socket error:", err.message);
+        alert(`Socket error: ${err.message}`);
+    });
+
+    socket.on("connect_error", (err) => {
+        console.error("❌ Socket connection error:", err.message);
+    });
+
+    socket.on("connect", () => {
+        console.log("✅ Connected to socket server");
+    });
+
+    return socket;
+}
+
 this.socket = createSocket({
+  room:'chat-room'
   userId: this.user.id,
   userName: this.user.name,
-  role: this.role // 'user' or 'agent'
 });
 ```
 

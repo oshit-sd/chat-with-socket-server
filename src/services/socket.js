@@ -16,12 +16,12 @@ export function createSocket({ userId = '', userName = '', room = '', role = 'us
     }
 
     socket = io(socketUrl, {
-        auth: { apiKey, userId, userName, room, role },
-        autoConnect: false,
+        auth: { apiKey, userId, userName, room, role }
     });
 
     socket.on("errors", (err) => {
         console.error("❌ Socket error:", err.message);
+        alert(`Socket error: ${err.message}`);
     });
 
     socket.on("connect_error", (err) => {
