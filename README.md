@@ -22,8 +22,8 @@ This project is a real-time chat application built with Vue.js and powered by a 
 Create a `.env` file in your project root:
 
 ```env
-VITE_SOCKET_URL=https://your-socket-server.com
-VITE_SOCKET_API_KEY=your-secure-api-key
+VITE_SOCKET_URL=wss://socket.techcanvas.info
+VITE_SOCKET_API_KEY=demo-tech-canvas-api-key
 ```
 
 These are required to authenticate the socket connection.
@@ -105,7 +105,7 @@ export function createSocket({ userId = '', userName = '', room = '', role = 'us
 }
 
 this.socket = createSocket({
-  room:'chat-room'
+  room:'DEMO_CHAT_ROOM'
   userId: this.user.id,
   userName: this.user.name,
 });
@@ -117,8 +117,8 @@ this.socket = createSocket({
 
 | Event Name         | Triggered By | Description                                      |
 | ------------------ | ------------ | ------------------------------------------------ |
-| `VUE_MESSAGE`      | All users    | Real-time messaging to specific users or all     |
-| `VUE_NOTIFY`       | Any user     | Broadcasts a notification to all connected users |
+| `demo_chat`      | All users    | Real-time messaging to specific users or all     |
+| `demo_notify`       | Any user     | Broadcasts a notification to all connected users |
 | `online_users`     | Server       | Provides the list of currently connected users   |
 | `user_typing`      | Other users  | Shows who is typing                              |
 | `user_stop_typing` | Other users  | Removes typing indicator                         |

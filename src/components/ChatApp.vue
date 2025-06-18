@@ -75,7 +75,7 @@ export default {
 
       this.socket.emit("message", {
         to: this.messageTo,
-        event: "VUE_MESSAGE",
+        event: "demo_chat",
         message: newMessage,
       });
 
@@ -120,10 +120,10 @@ export default {
         role: this.role,
         userId: this.user.id,
         userName: this.user.name,
-        room: "vue-chat",
+        room: "DEMO_CHAT_ROOM",
       });
 
-      this.socket.on("VUE_MESSAGE", (data) => {
+      this.socket.on("demo_chat", (data) => {
         if (data?.message?.user?.id !== this.user.id) {
           this.messages.push(data.message);
           this.scrollToBottom();
@@ -207,7 +207,7 @@ export default {
       ) {
         this.socket.emit("message", {
           to: "all",
-          event: "VUE_NOTIFY",
+          event: "demo_notify",
           message: `${this.user.name} says: "Hey everyone! Just sending out a quick heads-up 🚀"`,
         });
       }
@@ -222,7 +222,7 @@ export default {
       Notification.requestPermission();
     }
 
-    this.socket.on("VUE_NOTIFY", (data) => {
+    this.socket.on("demo_notify", (data) => {
       if (data.message) {
         alert(data.message);
       }
