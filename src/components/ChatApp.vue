@@ -124,6 +124,7 @@ export default {
       });
 
       this.socket.on("demo_chat", (data) => {
+        if (!data?.message) return;
         if (data?.message?.user?.id !== this.user.id) {
           this.messages.push(data.message);
           this.scrollToBottom();
