@@ -38,9 +38,10 @@ export default {
   },
   methods: {
     formatTime(date) {
-      return new Date(date).toLocaleTimeString([], {
+      return new Date(date).toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
+        timeZone: "Asia/Dhaka",
       });
     },
   },
