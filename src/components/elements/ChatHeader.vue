@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-gradient-to-b from-[#1e293b] to-[#0f172a] p-3 text-center border-b border-slate-700 shadow-md relative"
+    class="bg-gradient-to-b from-[#1e293b] to-[#0f172a] rounded-t-2xl p-3 text-center border-b border-slate-700 shadow-md relative"
   >
     <!-- App Name -->
     <h2

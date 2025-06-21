@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-4 bg-[#0f172a] border-t border-slate-600 flex items-center gap-2"
+    class="p-4 bg-[#0f172a] rounded-b-2xl border-t border-slate-600 flex items-center gap-2"
   >
     <input
       :value="modelValue"
