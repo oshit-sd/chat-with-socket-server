@@ -226,7 +226,7 @@ export default {
 
     this.socket.on("demo_notify", (data) => {
       if (data.message) {
-        alert(data.message);
+        // alert(data.message);
       }
     });
   },
