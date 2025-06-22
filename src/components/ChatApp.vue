@@ -29,6 +29,9 @@
 
 
 <script>
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 import ChatHeader from "@/components/elements/ChatHeader.vue";
 import OnlineUsers from "@/components/elements/OnlineUsers.vue";
 import ChatMessages from "@/components/elements/ChatMessages.vue";
@@ -210,7 +213,10 @@ export default {
         this.socket.emit("message", {
           to: "all",
           event: "demo_notify",
-          message: `${this.user.name} says: "Hey everyone! Just sending out a quick heads-up 🚀"`,
+          message: {
+            text: " Hey everyone! just wanted to let you know…",
+            user: this.user.name,
+          },
         });
       }
     },
@@ -225,8 +231,14 @@ export default {
     }
 
     this.socket.on("demo_notify", (data) => {
-      if (data.message) {
-        // alert(data.message);
+      if (data.message && data.message?.text) {
+        iziToast.info({
+          title: `${data?.message?.user} says`,
+          message: data?.message?.text,
+          timeout: 2000,
+          displayMode: 2,
+          position: "topRight",
+        });
       }
     });
   },
