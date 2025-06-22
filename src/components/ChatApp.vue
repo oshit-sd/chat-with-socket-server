@@ -235,7 +235,7 @@ export default {
         iziToast.info({
           title: `${data?.message?.user} says:`,
           message: data?.message?.text,
-          timeout: 2000,
+          timeout: 5000,
           displayMode: 2,
           position: "topRight",
         });
