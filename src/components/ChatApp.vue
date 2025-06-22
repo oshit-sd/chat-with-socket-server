@@ -233,7 +233,7 @@ export default {
     this.socket.on("demo_notify", (data) => {
       if (data.message && data.message?.text) {
         iziToast.info({
-          title: `${data?.message?.user} says`,
+          title: `${data?.message?.user} says:`,
           message: data?.message?.text,
           timeout: 2000,
           displayMode: 2,
