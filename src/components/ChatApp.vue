@@ -214,7 +214,7 @@ export default {
           to: "all",
           event: "demo_notify",
           message: {
-            text: " Hey everyone! just wanted to let you know…",
+            text: " Hey everyone!",
             user: this.user.name,
           },
         });
