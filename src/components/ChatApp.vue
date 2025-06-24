@@ -234,7 +234,7 @@ export default {
       if (data.message && data.message?.text) {
         iziToast.info({
           title: `Hey, I’m ${data?.message?.user}!`,
-          message: `What’s up, ${username}?`,
+          message: `What’s up, ${this.user.name}?`,
           timeout: 5000,
           position: "topRight",
         });
