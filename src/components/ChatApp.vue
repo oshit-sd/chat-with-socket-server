@@ -214,7 +214,7 @@ export default {
           to: "all",
           event: "demo_notify",
           message: {
-            text: " Hey everyone!",
+            text: "Hey everyone!",
             user: this.user.name,
           },
         });
@@ -236,7 +236,6 @@ export default {
           title: `${data?.message?.user} says:`,
           message: data?.message?.text,
           timeout: 5000,
-          displayMode: 2,
           position: "topRight",
         });
       }
