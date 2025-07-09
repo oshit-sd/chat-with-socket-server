@@ -212,7 +212,7 @@ export default {
           to: "all",
           event: "demo_notify",
           message: {
-            text: " Hey everyone!",
+            text: "Hey ",
             user: this.user.name,
           },
         });
@@ -231,10 +231,9 @@ export default {
     this.socket.on("demo_notify", (data) => {
       if (data.message && data.message?.text) {
         iziToast.info({
-          title: `${data?.message?.user} says:`,
-          message: data?.message?.text,
+          title: `Hey, I’m ${data?.message?.user}!! 🎉`,
+          message: `What’s up, ${this.user.name}? 😎`,
           timeout: 5000,
-          displayMode: 2,
           position: "topRight",
         });
       }
