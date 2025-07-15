@@ -21,7 +21,7 @@ export function createSocket({ userId = '', userName = '', room = '', role = 'us
 
     socket.on("errors", (err) => {
         console.error("❌ Socket error:", err.message);
-        alert(`Socket error: ${err.message}`);
+        alert(`${err.message}`);
     });
 
     socket.on("connect_error", (err) => {
